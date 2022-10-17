@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Page title</title>
+    <link
+      rel="stylesheet"
+      href="../node_modules/modern-normalize/modern-normalize.css"
+    />
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="search">
+      <h1 class="search__title">Image Search</h1>
+      <div class="search__container">
+        <input type="text" class="search__box" />
+        <div class="search__container__clear">
+          <svg
+            class="search__container__clear__icon"
+            width="30px"
+            height="30px"
+          >
+            <use href="img/clear.svg#clear"></use>
+          </svg>
+        </div>
+      </div>
+      <button type="button" class="search__button">Search</button>
+    </div>
+
+    <script src="js/index.js" type="module"></script>
+  </body>
+</html>
