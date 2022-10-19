@@ -3,19 +3,38 @@ import SimpleLightbox from 'simplelightbox';
 
 import axios from 'axios';
 
+const searchContainer = document.querySelector('.search__container');
 const searchBox = document.querySelector('.search__box');
 const searchButton = document.querySelector('.search__button');
 const contentBox = document.querySelector('.content');
 const gallery = document.querySelector('.gallery');
 
+searchBox.addEventListener('input', () => {
+  if (searchBox.value && searchContainer.classList.contains('noclear')) {
+    searchContainer.classList.remove('noclear');
+  } else if (
+    !searchBox.value &&
+    !searchContainer.classList.contains('noclear')
+  ) {
+    searchContainer.classList.add('noclear');
+  }
+});
+
+searchContainer.addEventListener('click', event => {
+  if (event.target == event.currentTarget) {
+    searchBox.value = '';
+    searchContainer.classList.add('noclear');
+  }
+});
+
 searchBox.addEventListener('keydown', event => {
-  console.log(event);
+  if (event.key == 'Enter') {
+    console.log('Initiate search');
+  }
 });
 
 searchButton.addEventListener('click', event => {
-  //   console.log('Window height: ' + window.innerHeight);
-  //   console.log('Body Height: ' + document.body.offsetHeight);
-  //   console.log('Distance Scrolled: ' + window.pageYOffset);
+  console.log('Initiate search');
 });
 
 window.addEventListener('scroll', () => {
@@ -45,7 +64,7 @@ const observer = new IntersectionObserver(onEntry);
 galleryImgRef.forEach(element => observer.observe(element));
 
 // Lightbox generation:
-let galleryLink = new SimpleLightbox('.gallery a', {
+let galleryLink = new SimpleLightbox('.gallery__link', {
   captionsData: 'alt',
   captionDelay: 250,
   overlayOpacity: 0.6,

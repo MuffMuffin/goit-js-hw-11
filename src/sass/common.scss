@@ -205,7 +205,7 @@ body {
     justify-content: center;
     flex-wrap: wrap;
     width: 100%;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px) brightness(60%);
     font-size: 14px;
     opacity: 0;
   }
@@ -313,10 +313,6 @@ body {
       margin: 0 10px 0 auto;
       font-size: 12px;
       opacity: 0.2;
-
-      &.hidden {
-        display: none;
-      }
     }
   }
 
