@@ -1,8 +1,12 @@
 $sl-font-family: 'Poppins', sans-serif;
 $sl-overlay-background: #212121;
 $sl-navigation-color: #fafafa;
+$sl-caption-background: #21212199;
 
 @import 'simple-lightbox';
+
+$content-side-padding: 10px;
+$gallery-gap: 10px;
 
 body {
   width: 100%;
@@ -123,7 +127,7 @@ body {
   left: 0;
   width: 100%;
   min-height: calc(100vh - 60px);
-  padding: 20px 10px 75px;
+  padding: 20px $content-side-padding 75px;
 
   &__notfound {
     position: absolute;
@@ -163,7 +167,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: $gallery-gap;
   list-style: none;
 
   &__card {
@@ -192,8 +196,11 @@ body {
   &__image {
     width: 100%;
     min-height: 125px;
-    height: calc((100vw - (20px - 40px)) / 4 * 0.625);
+    height: calc(
+      (100vw - (($content-side-padding * 2) + ($gallery-gap * 4))) / 4 * 0.625
+    );
     object-fit: cover;
+    object-position: center;
   }
 
   &__stats {
@@ -205,8 +212,9 @@ body {
     justify-content: center;
     flex-wrap: wrap;
     width: 100%;
+    padding-left: 5px;
     backdrop-filter: blur(10px) brightness(60%);
-    font-size: 14px;
+    font-size: 12px;
     opacity: 0;
   }
 
@@ -214,11 +222,8 @@ body {
     display: flex;
     justify-content: start;
     align-items: center;
-    flex-wrap: wrap;
-    width: 25%;
-    min-width: 80px;
+    width: 70px;
     min-height: 30px;
-    padding-left: 5px;
 
     &::before {
       content: '';
@@ -228,6 +233,7 @@ body {
       margin-right: 5px;
       background-color: #fafafa;
       mask-size: contain;
+      mask-repeat: no-repeat;
     }
 
     &.likes::before {
@@ -241,7 +247,9 @@ body {
     }
 
     &.comments::before {
-      margin-right: 7px;
+      width: 20px;
+      height: 20px;
+      margin-left: 3px;
       mask-image: url(../img/comment.svg);
     }
 
