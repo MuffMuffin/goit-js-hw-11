@@ -1,3 +1,9 @@
+$sl-font-family: 'Poppins', sans-serif;
+$sl-overlay-background: #212121;
+$sl-navigation-color: #fafafa;
+
+@import 'simple-lightbox';
+
 body {
   width: 100%;
   min-height: 100vh;
@@ -82,6 +88,10 @@ body {
     outline: none;
     color: #fafafa;
     font-weight: inherit;
+
+    &::placeholder {
+      color: #888;
+    }
   }
 
   &__button {
@@ -98,6 +108,10 @@ body {
     &:focus {
       background-color: #444;
     }
+  }
+
+  &__found {
+    display: none;
   }
 }
 
@@ -127,25 +141,14 @@ body {
     }
   }
 
-  &__more {
+  &__end {
     position: absolute;
     bottom: 10px;
     left: 50%;
     transform: translate(-50%, 0);
-    width: 150px;
-    height: 40px;
     border: none;
-    border-radius: 4px;
-    background-color: #555;
-    color: #fafafa;
-    font-weight: 100;
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
-
-    &:hover,
-    &:focus {
-      background-color: #444;
-    }
+    font-size: 30px;
+    opacity: 0.2;
 
     &.hidden {
       display: none;
@@ -160,12 +163,13 @@ body {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  gap: 30px;
+  gap: 10px;
   list-style: none;
 
   &__card {
     position: relative;
-    flex-basis: calc(100% / 4 - 30px);
+    min-width: 200px;
+    flex-basis: calc(100% / 4 - 10px);
     background-color: #666;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -174,27 +178,46 @@ body {
     &:hover {
       transform: scale(1.03);
       filter: grayscale(0);
+
+      & .gallery__stats {
+        opacity: 1;
+      }
     }
+  }
+
+  &__link {
+    cursor: zoom-in;
   }
 
   &__image {
     width: 100%;
+    min-height: 125px;
+    height: calc((100vw - (20px - 40px)) / 4 * 0.625);
     object-fit: cover;
   }
 
   &__stats {
+    position: absolute;
+    bottom: 0;
+    left: 0;
     pointer-events: none;
     display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+    backdrop-filter: blur(10px);
     font-size: 14px;
+    opacity: 0;
   }
 
   &__data {
     display: flex;
     justify-content: start;
     align-items: center;
+    flex-wrap: wrap;
     width: 25%;
     min-width: 80px;
-    height: 30px;
+    min-height: 30px;
     padding-left: 5px;
 
     &::before {
@@ -282,6 +305,17 @@ body {
         height: 25px;
         background-color: #fafafa;
         mask-image: url(../img/search.svg);
+      }
+    }
+
+    &__found {
+      display: block;
+      margin: 0 10px 0 auto;
+      font-size: 12px;
+      opacity: 0.2;
+
+      &.hidden {
+        display: none;
       }
     }
   }
