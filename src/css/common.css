@@ -377,6 +377,10 @@ body {
   font-size: 30px;
   opacity: 0.2;
 }
+.content__end a {
+  text-decoration: none;
+  color: inherit;
+}
 .content__end.hidden {
   display: none;
 }

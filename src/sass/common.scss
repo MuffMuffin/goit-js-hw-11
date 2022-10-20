@@ -154,6 +154,11 @@ body {
     font-size: 30px;
     opacity: 0.2;
 
+    & a {
+      text-decoration: none;
+      color: inherit;
+    }
+
     &.hidden {
       display: none;
     }
