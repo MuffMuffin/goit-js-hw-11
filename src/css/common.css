@@ -384,6 +384,9 @@ body {
 .content__end.hidden {
   display: none;
 }
+.content__infinite.hidden {
+  display: none;
+}
 
 .gallery {
   width: 100%;
