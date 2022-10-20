@@ -1,5 +1,4 @@
 import Notiflix from 'notiflix';
-import debounce from 'lodash.debounce';
 
 import {
   searchContainer,
@@ -67,6 +66,7 @@ function searchInit() {
 // Так, я знаю що це було б краще. Це б "їло" менше ресурсів.
 // Можна б було дозавантажувати малюнки не доходячи самого кінця списку.
 // Але я додумався до цього коли вже коли написав це. Тому так.
+// Тут був debounce аде він "тормозив" і тепер його нема.
 // Скажете переробити - перероблю.
 const infiniteScroll = () => {
   let difference = document.body.offsetHeight - window.innerHeight;
@@ -80,4 +80,4 @@ const infiniteScroll = () => {
   }
 };
 
-window.addEventListener('scroll', debounce(infiniteScroll, 250));
+window.addEventListener('scroll', infiniteScroll);
