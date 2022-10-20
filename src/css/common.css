@@ -423,11 +423,14 @@ body {
   -o-object-position: center;
      object-position: center;
 }
+.gallery a {
+  text-decoration: none;
+  color: inherit;
+}
 .gallery__stats {
   position: absolute;
   bottom: 0;
   left: 0;
-  pointer-events: none;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;

@@ -1,19 +1,23 @@
 import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 import axios from 'axios';
+import debounce from 'lodash.debounce';
 
-const searchContainer = document.querySelector('.search__container');
-const searchBox = document.querySelector('.search__box');
-const searchButton = document.querySelector('.search__button');
-const notFound = document.querySelector('.content__notfound');
-const gallery = document.querySelector('.gallery');
-const contentEnd = document.querySelector('.content__end');
+import {
+  searchContainer,
+  searchBox,
+  searchButton,
+  notFound,
+  gallery,
+  contentEnd,
+} from './refs';
+
+searchBox.focus();
 
 var galleryLightBox = new SimpleLightbox('.gallery__link', {
   captionsData: 'alt',
   captionDelay: 250,
   overlayOpacity: 0.6,
-  docClose: false,
 });
 
 var searchQuerry = null;
@@ -79,6 +83,7 @@ function markup(data) {
   // Gallery population
   const galleryArray = data.hits.map(
     ({
+      pageURL,
       tags,
       webformatURL,
       largeImageURL,
@@ -95,12 +100,14 @@ function markup(data) {
               alt="Tags: ${tags}"
               class="gallery__image"
           /></a>
-          <div class="gallery__stats">
+          <a target="_blank" rel="noopener noreferrer" href="${pageURL}">
+            <div class="gallery__stats">
             <div class="gallery__data likes">${numberText(likes)}</div>
             <div class="gallery__data views">${numberText(views)}</div>
             <div class="gallery__data comments">${numberText(comments)}</div>
             <div class="gallery__data downloads">${numberText(downloads)}</div>
           </div>
+          </a>
         </li>`;
     }
   );
@@ -116,11 +123,16 @@ function markup(data) {
     onPixabayUrl =
       onPixabayUrl + `&pagi=${Math.floor(data.totalHits / 100) + 1}`;
     contentEnd.innerHTML = `
-        <a href="${onPixabayUrl}">Click to continue on Pixabay</a>`;
+        <a target="_blank" rel="noopener noreferrer" href="${onPixabayUrl}">Click to continue on Pixabay</a>`;
   }
 
   // LazyLoad execution:
   const galleryImage = document.querySelectorAll('.gallery__image');
+
+  var firstItem = document.querySelector('.gallery__card');
+  var itemSize = `${
+    Math.ceil(firstItem.getBoundingClientRect().height) + 10
+  }px`;
 
   const onEntry = observerEntries => {
     observerEntries.forEach(({ target, isIntersecting }) => {
@@ -131,7 +143,9 @@ function markup(data) {
     });
   };
 
-  const observer = new IntersectionObserver(onEntry);
+  const observerOptions = { root: gallery, rootMargin: itemSize };
+
+  const observer = new IntersectionObserver(onEntry, observerOptions);
 
   galleryImage.forEach(element => {
     observer.unobserve(element);
@@ -213,7 +227,7 @@ function searchInit() {
   }
 }
 
-window.addEventListener('scroll', () => {
+const infiniteScroll = () => {
   let difference = document.body.offsetHeight - window.innerHeight;
   if (
     difference === window.pageYOffset &&
@@ -223,4 +237,6 @@ window.addEventListener('scroll', () => {
       getImages(searchQuerry, pageCounter);
     }
   }
-});
+};
+
+window.addEventListener('scroll', debounce(infiniteScroll, 250));
