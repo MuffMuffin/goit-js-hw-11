@@ -62,16 +62,11 @@ function searchInit() {
   }
 }
 
-// Так, я знаю що це можна було зробити через IntersectionObserver.
-// Так, я знаю що це було б краще. Це б "їло" менше ресурсів.
-// Можна б було дозавантажувати малюнки не доходячи самого кінця списку.
-// Але я додумався до цього коли вже коли написав це. Тому так.
-// Тут був debounce аде він "тормозив" і тепер його нема.
-// Скажете переробити - перероблю.
 const infiniteScroll = () => {
   let difference = document.body.offsetHeight - window.innerHeight;
   if (
-    difference === window.pageYOffset &&
+    difference >= window.pageYOffset - 10 &&
+    difference <= window.pageYOffset + 10 &&
     document.body.offsetHeight > window.innerHeight
   ) {
     if (pageCounter && pageCounter <= maxPage) {
