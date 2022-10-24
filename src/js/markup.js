@@ -129,7 +129,7 @@ function lazyLoad() {
     });
   };
 
-  const observerOptions = { root: gallery, rootMargin: itemSize };
+  const observerOptions = { root: null, rootMargin: itemSize };
 
   const observer = new IntersectionObserver(onEntry, observerOptions);
 

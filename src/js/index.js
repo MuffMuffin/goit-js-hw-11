@@ -8,11 +8,9 @@ import {
   contentEnd,
 } from './refs';
 
-import { getImages } from './getImages';
+import { vars } from './vars';
 
-global.searchQuerry = null;
-global.pageCounter = null;
-global.maxPage = null;
+import { getImages } from './getImages';
 
 searchBox.focus();
 
@@ -44,9 +42,11 @@ searchButton.addEventListener('click', () => {
   searchInit();
 });
 
+infiniteScroll();
+
 function searchInit() {
   if (searchBox.value.trim()) {
-    searchQuerry = searchBox.value.toLowerCase().trim();
+    vars.searchQuerry = searchBox.value.toLowerCase().trim();
     if (!document.body.classList.contains('insearch')) {
       document.body.classList.add('insearch');
     }
@@ -55,24 +55,28 @@ function searchInit() {
     if (contentEnd.classList.contains('hidden')) {
       contentEnd.classList.remove('hidden');
     }
-    getImages(searchQuerry, 1);
+    getImages(vars.searchQuerry, 1);
   } else {
     Notiflix.Notify.failure(`Search field must not be empty!`);
     searchBox.value = '';
   }
 }
 
-const infiniteScroll = () => {
-  let difference = document.body.offsetHeight - window.innerHeight;
-  if (
-    difference >= window.pageYOffset - 10 &&
-    difference <= window.pageYOffset + 10 &&
-    document.body.offsetHeight > window.innerHeight
-  ) {
-    if (pageCounter && pageCounter <= maxPage) {
-      getImages(searchQuerry, pageCounter);
-    }
-  }
-};
+function infiniteScroll() {
+  const onEntry = observerEntries => {
+    observerEntries.forEach(({ target, isIntersecting }) => {
+      if (isIntersecting) {
+        if (vars.pageCounter && vars.pageCounter <= vars.maxPage) {
+          console.log('Getting page: ' + vars.pageCounter);
+          getImages(vars.searchQuerry, vars.pageCounter);
+        }
+      }
+    });
+  };
 
-window.addEventListener('scroll', infiniteScroll);
+  const observerOptions = { root: null, rootMargin: '250px' };
+
+  const scroller = new IntersectionObserver(onEntry, observerOptions);
+
+  scroller.observe(contentEnd);
+}

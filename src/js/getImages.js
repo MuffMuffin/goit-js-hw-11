@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { markup } from './markup';
+import { vars } from './vars';
 
 const PIXABAY_URL = 'https://pixabay.com/api/?';
 
@@ -14,13 +15,13 @@ export async function getImages(search, page) {
         page: page,
       },
     });
-    if (pageCounter > 1) {
-      pageCounter += 1;
+    if (vars.pageCounter > 1) {
+      vars.pageCounter += 1;
     }
     if (page === 1) {
-      pageCounter = 2;
+      vars.pageCounter = 2;
     }
-    maxPage = Math.ceil(response.data.totalHits / 32);
+    vars.maxPage = Math.ceil(response.data.totalHits / 32);
     var onPixabayUrl = encodeURI(
       `https://pixabay.com/photos/search/${search}/?manual_search=1`
     );
